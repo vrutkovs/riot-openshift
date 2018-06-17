@@ -8,10 +8,9 @@ services:
 script:
   - export IMAGE=vrutkovs/riot-nginx
   - export RIOT_VERSION=v0.15.5
-  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then
-      docker build --build-arg RIOT_VERSION=$RIOT_VERSION -t $IMAGE . &&
-      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
-      docker push $IMAGE:latest && \
-      docker tag $IMAGE:latest $IMAGE:$RIOT_VERSION && \
-      docker push $IMAGE:$RIOT_VERSION;
-    fi
+  - if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then exit 0; fi
+  - docker build --build-arg RIOT_VERSION=$RIOT_VERSION -t $IMAGE .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push $IMAGE:latest
+  - docker tag $IMAGE:latest $IMAGE:$RIOT_VERSION
+  - docker push $IMAGE:$RIOT_VERSION
