@@ -7,7 +7,7 @@ services:
 
 script:
   - export IMAGE=vrutkovs/riot-nginx
-  - export RIOT_VERSION=v0.17.7
+  - export RIOT_VERSION=v0.17.8
   - if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then exit 0; fi
   - docker build --build-arg RIOT_VERSION=$RIOT_VERSION -t $IMAGE .
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
